@@ -34,7 +34,6 @@ public class Transposer {
         //try{
         if (wordSymbolLimit != 0 && !limitWasZero) {
             for (int i = 0; i < list.size(); i++) {
-                //if(cropTheWord){ // add the option to instantly trim the words
                 if (!rightSideAlignment) {
                     if (list.get(i).length() >= wordSymbolLimit && cropTheWord) {
                         list.set(i, list.get(i).substring(0, wordSymbolLimit));
@@ -42,20 +41,26 @@ public class Transposer {
                         list.set(i, String.format("%1$-" + wordSymbolLimit + "s", list.get(i)));
                     } else {
                         Scanner scan = new Scanner(System.in);
-                        System.out.println("Encountered word " + list.get(i) + " exceeds the specified character limit (character limit: "+wordSymbolLimit+"), but the trim flag was not specified. Add -t flag to trim words.");
+                        System.out.println("Encountered word " + list.get(i) + " exceeds the specified character limit (character limit: "+wordSymbolLimit+"), but the trim flag was not specified.");
                         System.out.println("You can rerun program with \"-t\" flag, apply trimming only to this word or apply trimming for all words.");
                         System.out.println("Type \"ONCE\" to trim only this word, \"Y\" to trim all words or \"N\" to stop the program.");
                         String answer = scan.nextLine();
-                        if (answer.equals("ONCE") || answer.equals("once")){
-                            list.set(i, list.get(i).substring(0, wordSymbolLimit));
-                        } else if(answer.equals("Y") || answer.equals("y")){
-                            list.set(i, list.get(i).substring(0, wordSymbolLimit));
-                            cropTheWord = true;
-                        } else if (answer.equals("N") || answer.equals("n")){
-                            System.exit(0);
-                        } else {
-                            System.out.println("Invalid argument");
-                            System.exit(1);
+                        switch (answer) {
+                            case "ONCE":
+                            case "once":
+                                list.set(i, list.get(i).substring(0, wordSymbolLimit));
+                                break;
+                            case "Y":
+                            case "y":
+                                list.set(i, list.get(i).substring(0, wordSymbolLimit));
+                                cropTheWord = true;
+                                break;
+                            case "N":
+                            case "n":
+                                System.exit(0);
+                            default:
+                                System.out.println("Invalid argument");
+                                System.exit(1);
                         }
                     }
                 } else {
@@ -64,8 +69,28 @@ public class Transposer {
                     } else if (list.get(i).length() <= wordSymbolLimit) {
                         list.set(i, String.format("%1$" + wordSymbolLimit + "s", list.get(i)));
                     } else {
-                        System.out.println("Encountered word " + list.get(i) + " exceeds the specified character limit, but the trim flag was not specified. Add -t flag to trim words.");
-                        break;
+                        Scanner scan = new Scanner(System.in);
+                        System.out.println("Encountered word " + list.get(i) + " exceeds the specified character limit (character limit: "+wordSymbolLimit+"), but the trim flag was not specified.");
+                        System.out.println("You can rerun program with \"-t\" flag, apply trimming only to this word or apply trimming for all words.");
+                        System.out.println("Type \"ONCE\" to trim only this word, \"Y\" to trim all words or \"N\" to stop the program.");
+                        String answer = scan.nextLine();
+                        switch (answer) {
+                            case "ONCE":
+                            case "once":
+                                list.set(i, list.get(i).substring(list.get(i).length() - wordSymbolLimit));
+                                break;
+                            case "Y":
+                            case "y":
+                                list.set(i, list.get(i).substring(list.get(i).length() - wordSymbolLimit));
+                                cropTheWord = true;
+                                break;
+                            case "N":
+                            case "n":
+                                System.exit(0);
+                            default:
+                                System.out.println("Invalid argument");
+                                System.exit(1);
+                        }
                     }
                 }
                 //}

@@ -17,7 +17,7 @@ public class TransposeLauncher {
     @Option(name = "-t", usage = "Crop the word to the desired size")
     private boolean cropTheWord = false;
 
-    @Option(name = "-r", usage = "Crop the word from the right end (default: crop from the left end)")
+    @Option(name = "-r", usage = "Right-side alignment (default: left-side alignment)")
     private boolean rightSideAlignment = false;
 
     @Option(name = "-o", metaVar = "ofile", usage = "Output file name")
@@ -117,7 +117,9 @@ public class TransposeLauncher {
                 Transposer.transpose(inputStream, outputStream);
                 System.out.println("Output result was successfully written to " + outputFileName);
             }
-        } catch (IOException e) {
+        }catch (FileNotFoundException e){
+            System.err.println(e.getMessage());
+        }catch (IOException e) {
             System.err.println(e.getMessage());
         }
     }
