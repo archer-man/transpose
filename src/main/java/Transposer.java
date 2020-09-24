@@ -1,29 +1,34 @@
 import java.util.ArrayList;
 import java.io.*;
 import java.util.Arrays;
+import java.util.List;
 
 public class Transposer {
 
     private static int wordSymbolLimit;
     private static boolean cropTheWord;
     private static boolean rightSideAlignment;
+    private static List<String> arguments;
     //String outputFileName;
     //String inputFileName;
     //List<String> arguments;
 
-    public Transposer(int wordSymbolLimit, boolean cropTheWord, boolean rightSideAlignment /*String outputFileName, String inputFileName,*/ /*List arguments*/) {
+    public Transposer(int wordSymbolLimit, boolean cropTheWord, boolean rightSideAlignment/*, /*String outputFileName, String inputFileName, List arguments*/) {
         this.wordSymbolLimit = wordSymbolLimit;
         this.cropTheWord = cropTheWord;
         this.rightSideAlignment = rightSideAlignment;
         //this.outputFileName=outputFileName;
         //this.inputFileName=inputFileName;
-        /*this.arguments = arguments;*/
+        this.arguments = arguments;
 
     }
 
     //(wordSymbolLimit, cropTheWord, rightSideAlignment, outputFileName, inputFileName, arguments);
 
     //public void transpose(int wordSymbolLimit, boolean cropTheWord, boolean rightSideAlignment, String outputFileName, String inputFileName, ArrayList arguments) {
+    /*private static String printMatrix(ArrayList<ArrayList<String>> matrix) throws IOException {
+        matrix.forEach(row -> System.out.println(String.join(" ", row)));
+    }*/
     private static ArrayList<String> alterString(ArrayList<String> list) throws IOException {
         //try{
         if (wordSymbolLimit != 0) {
@@ -35,7 +40,7 @@ public class Transposer {
                     } else if (list.get(i).length() < wordSymbolLimit) {
                         list.set(i, String.format("%1$-" + wordSymbolLimit + "s", list.get(i)));
                     } else {
-                        System.out.println("Encountered word" + list.get(i) + "exceeds the specified character limit, but the trim flag was not specified. Add -t flag to trim words.");
+                        System.out.println("Encountered word " + list.get(i) + " exceeds the specified character limit, but the trim flag was not specified. Add -t flag to trim words.");
                         break;
                     }
                 } else {
@@ -44,7 +49,7 @@ public class Transposer {
                     } else if (list.get(i).length() <= wordSymbolLimit) {
                         list.set(i, String.format("%1$" + wordSymbolLimit + "s", list.get(i)));
                     } else {
-                        System.out.println("Encountered word" + list.get(i) + "exceeds the specified character limit, but the trim flag was not specified. Add -t flag to trim words.");
+                        System.out.println("Encountered word " + list.get(i) + " exceeds the specified character limit, but the trim flag was not specified. Add -t flag to trim words.");
                         break;
                     }
                 }
@@ -57,7 +62,7 @@ public class Transposer {
     }*/
     }
 
-    public static ArrayList<ArrayList<String>> transpose(BufferedReader in, BufferedWriter out/*, int symbolLimit, boolean crop, boolean rightSideArrayList arguments*/) throws IOException {
+    public static void/*ArrayList<ArrayList<String>>*/ transpose(BufferedReader in, BufferedWriter out/*, int symbolLimit, boolean crop, boolean rightSideArrayList arguments*/) throws IOException {
         int lineNumber = 0;
         /*while (in.readLine() != null) {
             lineNumber++;
@@ -135,19 +140,68 @@ public class Transposer {
                     }
                 }
             }
-            return transposedMatrix;
+            //return transposedMatrix;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return originalMatrix;
+        //return originalMatrix;
+        //return transposedMatrix;
+
+        /*transposedMatrix.forEach(row -> {
+            try {
+                out.write(String.join(" ", row));
+                if(transposedMatrix.indexOf(row) != transposedMatrix.size()){
+                out.newLine();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            } finally {*/
+                /*if (out != null) {
+                    transposedMatrix.forEach(line -> String.join(" ", line));
+                }*/
+            //}
+        //);
+        for (int i=0; i<transposedMatrix.size();i++){
+            out.write(String.join(" ", transposedMatrix.get(i)));
+            if (transposedMatrix.indexOf(transposedMatrix.get(i))!= transposedMatrix.size() - 1 ){
+                out.newLine();
+            }
+        }
+        //return "done";
+        //return printMatrix(transposedMatrix);
     }
 
 
-    public static ArrayList<ArrayList<String>> transpose(String inputName, String outputName) throws IOException {
+    /*public static String/*ArrayList<ArrayList<String>>*/ /*transpose(String inputName, String outputName) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(inputName))) {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputName))) {
                 return transpose(reader, writer);
+
+            }
+        } catch (FileNotFoundException e) {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out));
+            return transpose(reader, writer);
+        }
+        /*int b=0;*/
+        //return "alalal";
+    //}
+
+    public static void/*ArrayList<ArrayList<String>>*/ transpose(InputStreamReader inputStream, OutputStreamWriter outputStream) throws IOException {
+        try (BufferedReader reader = new BufferedReader(inputStream)) {
+            try (BufferedWriter writer = new BufferedWriter(outputStream)) {
+                transpose(reader, writer);
             }
         }
     }
+
+    //public static String/*ArrayList<ArrayList<String>>*/ transposeFromConsole() throws IOException {
+        /*try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out))) {
+                return transpose(reader, writer);
+            }
+        }
+    }*/
 }
