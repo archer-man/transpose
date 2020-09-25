@@ -22,7 +22,7 @@ public class TransposeLauncher {
     @Argument(metaVar = "file", usage = "Input file name")
     private String inputFileName;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         new TransposeLauncher().doMain(args);
     }
 
@@ -36,7 +36,7 @@ public class TransposeLauncher {
             }
         } catch (CmdLineException e) {
             System.err.println(e.getMessage());
-            System.err.println("transpose [-a num] [-t] [-r] [-o ofile] [file]");
+            System.err.println("java -jar transpose [-a num] [-t] [-r] [-o ofile] [file]");
             parser.printUsage(System.err);
             return;
         }
