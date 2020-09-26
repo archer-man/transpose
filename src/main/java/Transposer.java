@@ -15,7 +15,7 @@ public class Transposer {
         this.rightSideAlignment = rightSideAlignment;
     }
 
-    private static ArrayList<String> alterString(ArrayList<String> list, boolean limitWasZero) throws IOException {
+    private static ArrayList<String> alterString(ArrayList<String> list, boolean limitWasZero) {
         if (wordSymbolLimit != 0 && !limitWasZero) {
             for (int i = 0; i < list.size(); i++) {
                 if (!rightSideAlignment) {
@@ -24,26 +24,31 @@ public class Transposer {
                     } else if (list.get(i).length() <= wordSymbolLimit) {
                         list.set(i, String.format("%1$-" + wordSymbolLimit + "s", list.get(i)));
                     } else {
+                        String s = String.join("\n"
+                                , "Encountered word " + list.get(i) + " exceeds the specified character limit (character limit: " + wordSymbolLimit + "), but the trim flag was not specified."
+                                , "You can rerun program with \"-t\" flag, apply trimming only to this word or apply trimming for all words."
+                                , "Type \"ONCE\" to trim only this word, \"Y\" to trim all words or \"N\" to stop the program.\n"
+                        );
                         Scanner scan = new Scanner(System.in);
-                        System.out.println("Encountered word " + list.get(i) + " exceeds the specified character limit (character limit: " + wordSymbolLimit + "), but the trim flag was not specified.");
-                        System.out.println("You can rerun program with \"-t\" flag, apply trimming only to this word or apply trimming for all words.");
-                        System.out.println("Type \"ONCE\" to trim only this word, \"Y\" to trim all words or \"N\" to stop the program.");
+                        System.out.println(s);
                         String answer = scan.nextLine();
                         switch (answer) {
                             case "ONCE":
                             case "once":
                                 list.set(i, list.get(i).substring(0, wordSymbolLimit));
+                                System.out.println();
                                 break;
                             case "Y":
                             case "y":
                                 list.set(i, list.get(i).substring(0, wordSymbolLimit));
                                 cropTheWord = true;
+                                System.out.println();
                                 break;
                             case "N":
                             case "n":
                                 System.exit(0);
                             default:
-                                System.out.println("Invalid argument");
+                                System.out.println("Invalid argument\n");
                                 System.exit(1);
                         }
                     }
@@ -53,26 +58,31 @@ public class Transposer {
                     } else if (list.get(i).length() <= wordSymbolLimit) {
                         list.set(i, String.format("%1$" + wordSymbolLimit + "s", list.get(i)));
                     } else {
+                        String s = String.join("\n"
+                                , "Encountered word " + list.get(i) + " exceeds the specified character limit (character limit: " + wordSymbolLimit + "), but the trim flag was not specified."
+                                , "You can rerun program with \"-t\" flag, apply trimming only to this word or apply trimming for all words."
+                                , "Type \"ONCE\" to trim only this word, \"Y\" to trim all words or \"N\" to stop the program.\n"
+                        );
                         Scanner scan = new Scanner(System.in);
-                        System.out.println("Encountered word " + list.get(i) + " exceeds the specified character limit (character limit: " + wordSymbolLimit + "), but the trim flag was not specified.");
-                        System.out.println("You can rerun program with \"-t\" flag, apply trimming only to this word or apply trimming for all words.");
-                        System.out.println("Type \"ONCE\" to trim only this word, \"Y\" to trim all words or \"N\" to stop the program.");
+                        System.out.println(s);
                         String answer = scan.nextLine();
                         switch (answer) {
                             case "ONCE":
                             case "once":
                                 list.set(i, list.get(i).substring(list.get(i).length() - wordSymbolLimit));
+                                System.out.println();
                                 break;
                             case "Y":
                             case "y":
                                 list.set(i, list.get(i).substring(list.get(i).length() - wordSymbolLimit));
                                 cropTheWord = true;
+                                System.out.println();
                                 break;
                             case "N":
                             case "n":
                                 System.exit(0);
                             default:
-                                System.out.println("Invalid argument");
+                                System.out.println("Invalid argument\n");
                                 System.exit(1);
                         }
                     }

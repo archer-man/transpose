@@ -47,7 +47,7 @@ public class TransposeLauncher {
             if (inputFileName == null && outputFileName == null) {
                 InputStreamReader inputStream = new InputStreamReader(System.in);
                 OutputStreamWriter outputStream = new OutputStreamWriter(System.out);
-                System.out.println("Input file was not specified. Please, enter the matrix separating the individual elements with space(-s).");
+                System.out.println("Input file was not specified. Please, enter the matrix separating the individual elements with space(-s):");
                 Transposer.transpose(inputStream, outputStream);
             } else if (inputFileName != null && outputFileName == null) {
                 InputStreamReader inputStream = new InputStreamReader(new FileInputStream(inputFileName));
@@ -57,15 +57,15 @@ public class TransposeLauncher {
             } else if (inputFileName == null) {
                 InputStreamReader inputStream = new InputStreamReader(System.in);
                 OutputStreamWriter outputStream = new OutputStreamWriter(new FileOutputStream(outputFileName));
-                System.out.println("Input file was not specified. Please, enter the matrix separating the individual elements with space(-s).");
+                System.out.println("Input file was not specified. Please, enter the matrix separating the individual elements with space(-s):");
                 Transposer.transpose(inputStream, outputStream);
-                System.out.println("Output result was successfully written to " + outputFileName);
+                System.out.println("Output result was successfully written to " + outputFileName + "\n");
             } else {
                 InputStreamReader inputStream = new InputStreamReader(new FileInputStream(inputFileName));
                 OutputStreamWriter outputStream = new OutputStreamWriter(new FileOutputStream(outputFileName));
                 System.out.println("Input matrix will be obtained from " + inputFileName);
                 Transposer.transpose(inputStream, outputStream);
-                System.out.println("Output result was successfully written to " + outputFileName);
+                System.out.println("Output result was successfully written to " + outputFileName + "\n");
             }
         } catch (IOException e) {
             System.err.println(e.getMessage());
