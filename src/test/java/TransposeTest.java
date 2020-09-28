@@ -27,7 +27,7 @@ class TransposeTest {
     }
 
     @Test
-    void main() throws FileNotFoundException {
+    void main() throws IOException {
         TransposeLauncher.main(("-a 5 -t -o output/1.txt input/1.txt").split(" "));
         assertFileContent("output/1.txt", "output/reference/true1.txt");
         TransposeLauncher.main(("input/2.txt -o output/2.txt").split(" "));
