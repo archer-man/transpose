@@ -15,37 +15,42 @@ public class Transposer {
     }
 
     private ArrayList<String> alterString(ArrayList<String> list, boolean limitWasZero) {
-        if (wordSymbolLimit != 0 && !limitWasZero) {
-            for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).length() >= wordSymbolLimit && cropTheWord) {
-                    if (!rightSideAlignment) {
-                        list.set(i, list.get(i).substring(0, wordSymbolLimit));
-                    } else {
-                        list.set(i, list.get(i).substring(list.get(i).length() - wordSymbolLimit));
-                    }
-                } else if (list.get(i).length() <= wordSymbolLimit) {
-                    if (!rightSideAlignment) {
-                        list.set(i, String.format("%1$-" + wordSymbolLimit + "s", list.get(i)));
-                    } else {
-                        list.set(i, String.format("%1$" + wordSymbolLimit + "s", list.get(i)));
-                    }
-                } else {
-                    throw new RuntimeException(list.get(i) + " element exceeds specified symbol limit. Add -t launch argument to trim words.");
-                }
-            }
-        } else {
-            int maxStringLength = 1;
-            for (int b = 0; b < list.size(); b++) {
-                if (list.get(b).length() > maxStringLength) {
-                    maxStringLength = list.get(b).length();
-                }
-                wordSymbolLimit = maxStringLength;
+        try {
+            if (wordSymbolLimit != 0 && !limitWasZero) {
                 for (int i = 0; i < list.size(); i++) {
-                    if (list.get(i).length() < wordSymbolLimit) {
-                        list.set(i, String.format("%1$-" + wordSymbolLimit + "s", list.get(i)));
+                    if (list.get(i).length() >= wordSymbolLimit && cropTheWord) {
+                        if (!rightSideAlignment) {
+                            list.set(i, list.get(i).substring(0, wordSymbolLimit));
+                        } else {
+                            list.set(i, list.get(i).substring(list.get(i).length() - wordSymbolLimit));
+                        }
+                    } else if (list.get(i).length() <= wordSymbolLimit) {
+                        if (!rightSideAlignment) {
+                            list.set(i, String.format("%1$-" + wordSymbolLimit + "s", list.get(i)));
+                        } else {
+                            list.set(i, String.format("%1$" + wordSymbolLimit + "s", list.get(i)));
+                        }
+                    } else {
+                        throw new RuntimeException(list.get(i) + " element exceeds specified symbol limit. Add -t launch argument to trim words.");
+                    }
+                }
+            } else {
+                int maxStringLength = 1;
+                for (int b = 0; b < list.size(); b++) {
+                    if (list.get(b).length() > maxStringLength) {
+                        maxStringLength = list.get(b).length();
+                    }
+                    wordSymbolLimit = maxStringLength;
+                    for (int i = 0; i < list.size(); i++) {
+                        if (list.get(i).length() < wordSymbolLimit) {
+                            list.set(i, String.format("%1$-" + wordSymbolLimit + "s", list.get(i)));
+                        }
                     }
                 }
             }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
         return list;
     }
